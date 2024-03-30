@@ -1,0 +1,43 @@
+import { registerUserWithEmailPassword, signInWithGoogle } from '../../firebase/providers'
+import { checkAuth, login, logout } from './'
+
+export const checkingAuth = (email, password) => {
+    return async (dispatch) => {
+        dispatch(checkAuth())
+        /* try {
+            const user = await auth.signInWithEmailAndPassword(email, password)
+            dispatch(login(user))
+        } catch (error) {
+            dispatch(logout())
+            console.log(error)
+        } */
+    }
+}
+
+export const startGoogleLogin = () => {
+    return async (dispatch) => {
+        dispatch(checkAuth())
+        const result = await signInWithGoogle()
+        
+        if(!result.ok) return dispatch(logout(result.errorMessage))
+
+        dispatch(login(result))
+    }
+}
+
+export const startCreatingUserWithEmailPassword = ({email, password, displayName}) => {
+    return async (dispatch) => {
+        dispatch(checkAuth())
+
+        const {ok, uid, photoURL} = await registerUserWithEmailPassword({email, password, displayName})
+        
+        if(!ok) return dispatch(logout({errorMessage}))
+
+        dispatch(login({
+            uid,
+            email,
+            displayName,
+            photoURL
+        }))
+    }
+}
