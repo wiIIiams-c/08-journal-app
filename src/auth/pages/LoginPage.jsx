@@ -12,8 +12,8 @@ export const LoginPage = () => {
     const {status, errorMessage} = useSelector(state => state.auth)
 
     const {email, password, onInputChange} = useForm({
-        email: 'waldo@waldo.cl',
-        password: '123456'
+        email: '',
+        password: ''
     })
 
     const isAuthenticated = useMemo(() => {
@@ -33,7 +33,7 @@ export const LoginPage = () => {
 
     return (
         <AuthLayout titulo="Login">
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className="animate__animated animate__fadeIn animate__faster">
                 <Grid container>
                     <Grid item xs={12} sx={{mt: 2}}>
                         <TextField 
