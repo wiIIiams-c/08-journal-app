@@ -4,27 +4,25 @@ import { FirebaseAuth } from './config'
 const googleProvider = new GoogleAuthProvider()
 
 export const signInWithGoogle = async() => {
-    return async () => {
-        try {
-            const result = await signInWithPopup(FirebaseAuth, googleProvider)
-            //const credentials = GoogleAuthProvider.credentialFromResult(result)
-            const {displayName, email, photoURL, uid} = result.user
+    try {
+        const result = await signInWithPopup(FirebaseAuth, googleProvider)
+        //const credentials = GoogleAuthProvider.credentialFromResult(result)
+        const {displayName, email, photoURL, uid} = result.user
 
-            return {
-                ok: true,
-                displayName,
-                email,
-                photoURL,
-                uid
-            }
-        } catch (error) {
-            const errorCode = error.code
-            const errorMessage = error.message
+        return {
+            ok: true,
+            displayName,
+            email,
+            photoURL,
+            uid
+        }
+    } catch (error) {
+        const errorCode = error.code
+        const errorMessage = error.message
 
-            return {
-                ok: false,
-                errorMessage,
-            }
+        return {
+            ok: false,
+            errorMessage,
         }
     }
 }
@@ -69,4 +67,8 @@ export const loginWithEmailPassword = async({email, password}) => {
             errorMessage: error.message
         }
     }
+}
+
+export const logoutFirebase = async() => {
+    return await FirebaseAuth.signOut()
 }
